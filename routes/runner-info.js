@@ -1,5 +1,4 @@
 var mongo  = require('mongodb'),
-    config = require('../config/common'),
     http = require('http'),
     cheerio = require('cheerio');
 
@@ -57,6 +56,11 @@ exports.teams = function(req, res) {
       res.json(autocomplete_teams);
     });
 
+
+}
+
+exports.roster = function(req, res) {
+    res.json({url: req.params.teamURL});
 
 }
 
