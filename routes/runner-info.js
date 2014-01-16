@@ -51,17 +51,36 @@ exports.teams = function(req, res) {
     fs.readFile('teams.js', 'utf8', function (err, data) {
       if (err) throw err;
       eval(data);
-      
-      console.log(autocomplete_teams);
       res.json(autocomplete_teams);
     });
-
-
 }
 
 exports.roster = function(req, res) {
-    res.json({url: req.params.teamURL});
 
+    var options = {
+        host: "www.tfrrs.org",
+        port: 80,
+        //path: "/teams/" + req.params.teamURL
+        path: "/athletes/3275363.html"
+    };
+
+    console.log(options);
+    var content = "";   
+
+    var req = http.request(options, function(res) {
+        res.setEncoding("utf8");
+        res.on("data", function (chunk) {
+            console.log(chunk);
+            content += chunk;
+        });
+
+        // After all data has been stored.
+        res.on("end", function () {
+            var $ = cheerio.load(content);
+            console.log(content);
+            res.send({content: content});
+        });
+    });
 }
 
 exports.athleteStats = function(req, response) {

@@ -23,7 +23,7 @@ app.engine('html', require('ejs').renderFile);
 app.get('/athlete/:id', times.athleteStats);
 app.get('/team/:id/athletes', times.athletesOnTeam);
 app.get('/teams', times.teams);
-app.get('/teams/roster/:teamURL', times.roster);
+app.get('/teams/roster/teams/:teamURL', times.roster);
 
 app.listen(process.env.PORT || 5000)
 console.log('Listening on port 5000...');
