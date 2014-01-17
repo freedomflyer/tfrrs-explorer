@@ -7,6 +7,7 @@ var http = require('http'),
 if(process.env.REDISCLOUD_URL) {
     var redisURL = url.parse(process.env.REDISCLOUD_URL);
     var client = redis.createClient(redisURL.port, redisURL.hostname, {no_ready_check: true});
+    client.auth("G4mOHQyUPcdQ2PLS");
 }
 else {
     var client = redis.createClient();
