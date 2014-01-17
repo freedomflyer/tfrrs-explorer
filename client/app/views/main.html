@@ -9,24 +9,30 @@
 <div class="row">
   <div class="col-sm-4">
   		<h1>Teams</h1>
-		  <input tabindex="1" type="text" ng-model="teamFilter" placeholder="Filter by team name..." class="form-control"/>
+		  <input tabindex="1" type="text" ng-model="teamFilter" placeholder="Filter by team name..." class="form-control" ng-change="selectedRoster = null"/>
 		  <hr>
-		  <ul class="nav nav-pills nav-stacked">
-		  	<li ng-repeat="team in data | filter:{text:teamFilter}" ng-click="getRoster(team.url, $index)" ng-class="{active: selectedRoster == $index}">
-		  		<a href="">{{team.text}}</a>
-		  	</li>  
-			</ul>
+
+			<div style="max-height:500px; overflow: auto; border: 1px solid lightgray;" class="scroll-div">
+			  <ul class="nav nav-pills nav-stacked">
+			  	<li ng-repeat="team in data | filter:{text:teamFilter}" ng-click="getRoster(team.url, $index)" ng-class="{active: selectedRoster == $index}">
+			  		<a href="">{{team.text}}</a>
+			  	</li>  
+				</ul>
+			</div>
+
   </div>
 
   <div class="col-sm-4">
   	<h1>Athletes {{test}} </h1>
-  	<input tabindex="2" type="text" ng-model="athleteFilter" placeholder="Filter by athlete name..." class="form-control"/>
+  	<input tabindex="2" type="text" ng-model="athleteFilter" placeholder="Filter by athlete name..." class="form-control" ng-change="selectedAthlete = null"/>
   	<hr>
+  	<div style="max-height:500px; overflow: auto; border: 1px solid lightgray;" class="scroll-div">
   	<ul class="nav nav-pills nav-stacked">
 		  	<li ng-repeat="athlete in athletes | filter:{name : athleteFilter}" ng-click="getStats(athlete.url, $index)" ng-class="{active: selectedAthlete == $index}">
 		  		<a href="">{{athlete.name}}</a>
 		  	</li>  
-			</ul>
+		</ul>
+		</div>
   </div>
 
 
