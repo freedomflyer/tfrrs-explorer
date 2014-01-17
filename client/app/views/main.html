@@ -1,2 +1,38 @@
-<h1>Teams</h1>
-<p ng-repeat="team in data" ng-click="getRoster(team.url)">{{team.text}}</p>
+<div class="row">
+	<div class="jumbotron">
+	  <h1>TFRRS Explorer</h1>
+	  <p>by Spencer Gardner</p>
+	  
+	</div>
+</div>
+
+<div class="row">
+  <div class="col-sm-4">
+  		<h1>Teams</h1>
+		  <input type="text" ng-model="teamFilter" placeholder="Filter by team name..." class="form-control"/>
+		  <hr>
+		  <ul class="nav nav-pills nav-stacked">
+		  	<li ng-repeat="team in data | filter:{text:teamFilter}" ng-click="getRoster(team.url)">
+		  		<a href="">{{team.text}}</a>
+		  	</li>  
+			</ul>
+  </div>
+
+  <div class="col-sm-4">
+  	<h1>Athletes {{test}} </h1>
+  	<hr>
+  	<ul class="nav nav-pills nav-stacked">
+		  	<li ng-repeat="athlete in athletes" ng-click="getStats(athlete.url)">
+		  		<a href="">{{athlete.name | json}}</a>
+		  	</li>  
+			</ul>
+  </div>
+
+
+  <div class="col-sm-4">
+  	<h1>Stats</h1>
+  	{{athleteData}}
+  </div>
+	
+
+</div>
