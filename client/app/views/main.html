@@ -9,10 +9,10 @@
 <div class="row">
   <div class="col-sm-4">
   		<h1>Teams</h1>
-		  <input type="text" ng-model="teamFilter" placeholder="Filter by team name..." class="form-control"/>
+		  <input tabindex="1" type="text" ng-model="teamFilter" placeholder="Filter by team name..." class="form-control"/>
 		  <hr>
 		  <ul class="nav nav-pills nav-stacked">
-		  	<li ng-repeat="team in data | filter:{text:teamFilter}" ng-click="getRoster(team.url)">
+		  	<li ng-repeat="team in data | filter:{text:teamFilter}" ng-click="getRoster(team.url, $index)" ng-class="{active: selectedRoster == $index}">
 		  		<a href="">{{team.text}}</a>
 		  	</li>  
 			</ul>
@@ -20,9 +20,10 @@
 
   <div class="col-sm-4">
   	<h1>Athletes {{test}} </h1>
+  	<input tabindex="2" type="text" ng-model="athleteFilter" placeholder="Filter by athlete name..." class="form-control"/>
   	<hr>
   	<ul class="nav nav-pills nav-stacked">
-		  	<li ng-repeat="athlete in athletes" ng-click="getStats(athlete.url)">
+		  	<li ng-repeat="athlete in athletes | filter:{name : athleteFilter}" ng-click="getStats(athlete.url, $index)" ng-class="{active: selectedAthlete == $index}">
 		  		<a href="">{{athlete.name}}</a>
 		  	</li>  
 			</ul>
@@ -32,12 +33,19 @@
   <div class="col-sm-4">
   	<h1>Stats</h1>
   	<hr>
-  	<h3>{{athleteData.name}}</h3>
-		<h4>Bests</h4>
-		<p ng-repeat="best in athleteData.bests">{{best.event}} - {{best.time}}</p>
-		<h4>Races</h4>
-		<p ng-repeat-start="race in athleteData.races">{{race.meet}}</p>
-		<p ng-repeat-end> {{race.event}}: {{race.mark}}</p>
+		<div id="athlete-info" ng-show="athleteData">
+	  	<h3>{{athleteData.name}}</h3>
+			<a href="/athlete/{{athleteData.tfrrs_id}}">
+	  		<button type="button" class="btn btn-default">Raw JSON</button>
+			</a>
+			<h4>Bests</h4>
+			<p ng-repeat="best in athleteData.bests">{{best.event}} - {{best.time}}</p>
+			<h4>Races</h4>
+			<p ng-repeat-start="race in athleteData.races">{{race.meet}}</p>
+			<p ng-repeat-end> {{race.event}}: {{race.mark}}</p>
+		</div>
+
+
   </div>
 	
 

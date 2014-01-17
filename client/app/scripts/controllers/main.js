@@ -9,10 +9,10 @@ angular.module('tfrrsExplorerApp')
     $scope.athletes = [{test:"testing"}];
 
 
-  	$scope.getRoster = function(url) {
-
+  	$scope.getRoster = function(url, index) {
 	    $http.get("/teams/roster" + url).success(function (data) {
         $scope.athletes = data;
+        $scope.selectedRoster = index;
 
         console.log($scope.athletes);
 
@@ -20,15 +20,13 @@ angular.module('tfrrsExplorerApp')
 
   	}
 
-    $scope.getStats = function(url) {
+    $scope.getStats = function(url, index) {
+
       var athleteID = url.match(/\d+/g)[0];  
       $http.get("/athlete/" + athleteID).success(function (data) {
-      
+        $scope.selectedAthlete = index;
         $scope.athleteData = data;
         console.log(data);
-
       }); 
     }
-
-
   });

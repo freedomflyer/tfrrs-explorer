@@ -78,6 +78,7 @@ exports.athleteStats = function(req, response) {
 
 
         athlete.tfrrs_id = req.params.id;
+        athlete.tfrrs_url = "http://www.tfrrs.org/athletes/" + req.params.id + "/html";
         athlete.bests = [];
         athlete.races = [];
 
