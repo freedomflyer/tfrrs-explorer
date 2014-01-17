@@ -4,6 +4,8 @@ var http = require('http'),
     request = require('request'),
     url     = require('url');
 
+var SECONDS_IN_48_HOURS = 172800;
+
 if(process.env.REDISCLOUD_URL) {
     var redisURL = url.parse(process.env.REDISCLOUD_URL);
     var client = redis.createClient(redisURL.port, redisURL.hostname, {no_ready_check: true});
@@ -24,31 +26,22 @@ exports.teams = function(req, res) {
     });
 }
 
+
 // Get the roster of peeps
 exports.roster = function(req, response){
     var teamURL = 'http://tfrrs.org/teams/' + req.params.url;
 
-
     client.get(teamURL, function(err, reply){
         if(reply != null) {
             console.log("Page exists....");
-            var $ = cheerio.load(reply);
-            var athletes = [];
-
-            $('td.name a').each(function(i, elem) {
-                console.log($(this).attr('href'));
-                console.log($(this).text());
-
-                athletes.push({url: $(this).attr('href'), name: $(this).text()});
-            });
-            athletes.splice(0, 1);
-            response.json(athletes);
+            
+            response.json(JSON.parse(reply));
         }
         else {
             console.log("Page doesn't exists....");
             var content = '';
             request(teamURL, function(error, res, content) {
-                client.set(teamURL, content, redis.print);
+                
                 var $ = cheerio.load(content);
 
                 var athletes = [];
@@ -58,15 +51,19 @@ exports.roster = function(req, response){
 
                     athletes.push({url: $(this).attr('href'), name: $(this).text()});
                 });
+
+                // Delete first entry, it's wrong
                 athletes.splice(0, 1);
+                client.set(teamURL, JSON.stringify(athletes), redis.print);
+                client.expire(teamURL, SECONDS_IN_48_HOURS);
                 response.json(athletes);
             });
         }
 
     });
 
-
 };
+
 
 
 exports.athleteStats = function(req, response) {
@@ -97,10 +94,10 @@ exports.athleteStats = function(req, response) {
         $('#results_data').find(".even").each(function() {
             
             athlete.races.push({
-                "date" : $(this).find(".date").text().trim(),
-                "meet" : $(this).find(".meet").text().trim(),
+                "date"  : $(this).find(".date").text().trim(),
+                "meet"  : $(this).find(".meet").text().trim(),
                 "event" : $(this).find(".event").text().trim(),
-                "mark" : $(this).find(".mark").text().trim(),
+                "mark"  : $(this).find(".mark").text().trim(),
                 "place" : $(this).find(".place").text().trim()
             });
         });
@@ -109,13 +106,6 @@ exports.athleteStats = function(req, response) {
         response.json(athlete);
     });
 };
-
-
-
-
-
-
-
 
 
 
