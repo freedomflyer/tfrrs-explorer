@@ -8,6 +8,7 @@
 		"request" : "*",
 		"cheerio" : "*",
 		"request" : "*",
-		"redis"   : "*"
+		"redis"   : "*",
+        "url"     : "*"
     }
 }

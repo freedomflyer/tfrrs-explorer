@@ -1,7 +1,8 @@
 var http = require('http'),
     cheerio = require('cheerio'),
     redis   = require('redis'),
-    request = require('request');
+    request = require('request'),
+    url     = require('url');
 
 if(process.env.REDISCLOUD_URL) {
     var redisURL = url.parse(process.env.REDISCLOUD_URL);
