@@ -5,13 +5,12 @@ var express = require('express'),
 var app = express();
 
 app.configure(function () {
-    app.use(express.logger('dev'));     /* 'default', 'short', 'tiny', 'dev' */
+    app.use(express.logger('dev'));
     app.use(express.bodyParser());
 	app.use(express.cookieParser("here is my secret"));
 	app.use(express.session());
 });
 
-//REST Routes
 
 app.use(express.static(path.join(__dirname, 'public')));
 
@@ -23,5 +22,5 @@ app.get('/athlete/:id', times.athleteStats);
 app.get('/teams', times.teams);
 app.get('/teams/roster/teams/:url', times.roster);
 
-app.listen(process.env.PORT || 5000)
+app.listen(process.env.PORT || 5000);
 console.log('Listening on port 5000...');

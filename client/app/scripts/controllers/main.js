@@ -21,14 +21,13 @@ angular.module('tfrrsExplorerApp')
   	}
 
     $scope.getStats = function(url) {
-
-      $http.get("/athlete/test?url=" + url).success(function (data) {
+      var athleteID = url.match(/\d+/g)[0];  
+      $http.get("/athlete/" + athleteID).success(function (data) {
       
         $scope.athleteData = data;
         console.log(data);
 
       }); 
-
     }
 
 

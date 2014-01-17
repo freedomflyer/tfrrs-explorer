@@ -23,7 +23,7 @@
   	<hr>
   	<ul class="nav nav-pills nav-stacked">
 		  	<li ng-repeat="athlete in athletes" ng-click="getStats(athlete.url)">
-		  		<a href="">{{athlete.name | json}}</a>
+		  		<a href="">{{athlete.name}}</a>
 		  	</li>  
 			</ul>
   </div>
@@ -31,7 +31,13 @@
 
   <div class="col-sm-4">
   	<h1>Stats</h1>
-  	{{athleteData}}
+  	<hr>
+  	<h3>{{athleteData.name}}</h3>
+		<h4>Bests</h4>
+		<p ng-repeat="best in athleteData.bests">{{best.event}} - {{best.time}}</p>
+		<h4>Races</h4>
+		<p ng-repeat-start="race in athleteData.races">{{race.meet}}</p>
+		<p ng-repeat-end> {{race.event}}: {{race.mark}}</p>
   </div>
 	
 
